@@ -19,3 +19,6 @@ python -m venv .venv
 ```bash
  source .venv/bin/activate
 ```
+```bash
+python src/main.py --source_path=data/source --replica_path=data/replica --log_path=logs/log.txt --sync_time=10
+```
