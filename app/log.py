@@ -29,12 +29,12 @@ class Logs:
         self.counter["updated"] += 1
     
     def log_register_changes(self) -> None:
-        self.log_message(f"{self.counter['added']} files added, {self.counter['updated']} files updated, {self.counter['removed']} files removed")
+        self.log_message(f"{self.counter['added']} file(s) added, {self.counter['updated']} file(s) updated, {self.counter['removed']} file(s) removed")
     
     def stop_log(self) -> None:
         self.log_message("Synchronization stopped")
         with open(self.log_path, 'a') as f:
-            f.write("--------------------")
+            f.write("--------------------\n")
 
     def log_message(self, message) -> None:
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
