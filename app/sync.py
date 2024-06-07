@@ -30,7 +30,8 @@ class FolderSync(Logs):
             source_file_path = os.path.join(self.source_path, file)
             replica_file_path = os.path.join(self.replica_path, file)
             self.log_count_changes(replica_file_path)
-            if file in replica_files and not self.compare_two_files(source_file_path, replica_file_path):
+            if file in replica_files:
+                if not self.compare_two_files(source_file_path, replica_file_path):
                     shutil.copy2(source_file_path, self.replica_path)
                     self.log_update(file)
             else:

@@ -9,27 +9,27 @@ class Logs:
         self.log_message(f'Synchronizing from {source_path} to {replica_path}')
     
     def log_count_changes(self, replica_path: str) -> None:
-        self.replica_path = replica_path
-        self.register = {
+        self.log_replica_path = replica_path
+        self.counter = {
             'added': 0,
             'updated': 0,
             'removed': 0
             }
     
     def log_add(self, file) -> None:
-        self.log_message(f"File {file} added to {self.replica_path}")
-        self.register["added"] += 1
+        self.log_message(f"File {file} added to {self.log_replica_path}")
+        self.counter["added"] += 1
     
     def log_remove(self, file) -> None:
-        self.log_message(f"File {file} removed from {self.replica_path}")
-        self.register["removed"] += 1
+        self.log_message(f"File {file} removed from {self.log_replica_path}")
+        self.counter["removed"] += 1
     
     def log_update(self, file) -> None:
-        self.log_message(f"File {file} updated in {self.replica_path}")
-        self.register["updated"] += 1
+        self.log_message(f"File {file} updated in {self.log_replica_path}")
+        self.counter["updated"] += 1
     
     def log_register_changes(self) -> None:
-        self.log_message(f"{self.register['added']} files added, {self.register['updated']} files updated, {self.register['removed']} files removed")
+        self.log_message(f"{self.counter['added']} files added, {self.counter['updated']} files updated, {self.counter['removed']} files removed")
     
     def stop_log(self) -> None:
         self.log_message("Synchronization stopped")
