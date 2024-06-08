@@ -1,6 +1,15 @@
 import argparse
 
 def parse_args(func):
+    """
+    Parses command-line arguments for the synchronization script.
+
+    Args:
+        func (function): The function to be wrapped.
+
+    Returns:
+        function: The wrapped function.
+    """
     def wrapper():
         parser = argparse.ArgumentParser(description='Folder synchronization script')
         parser.add_argument('--source_path', required=True, help='The source folder path.')
