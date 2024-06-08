@@ -42,7 +42,8 @@ python -m venv .venv
  source .venv/bin/activate
 ```
 
-6. Run the program locally by replacing the actual source folder path with <SOURCE_FOLDER_PATH>, the replica folder path with <REPLICA_FOLDER_PATH>, the log file path with <FILE_PATH>, and the synchronization interval with <SYNC_INTERVAL>
+6. Run the program locally by replacing `<SOURCE_FOLDER_PATH>` with the actual source folder path, `<REPLICA_FOLDER_PATH>` with the replica folder path, `<FILE_PATH>` with the log file path, and `<SYNC_INTERVAL>` with the synchronization interval.
+
 
 ```bash
 python app --source_path=<SOURCE_FOLDER_PATH> --replica_path=<REPLICA_FOLDER_PATH> --log_path=<FILE_PATH> --sync_time=<SYNC_INTERVAL>
