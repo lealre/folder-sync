@@ -2,6 +2,17 @@ import time
 from typing import List, Union
 
 class Logs:
+    """
+    Provides logging functionality for synchronization operations.
+
+    Attributes:
+        log_path (str): The path to the log file.
+        log_replica_path (str): The path to the replica folder.
+        counter (dict): A dictionary to keep track of added, updated, and removed files.
+            Keys: 'added', 'updated', 'removed'.
+            Values: Counts of corresponding operations.
+    """
+
     def __init__(self, log_path:str, replica_path: str) -> None:
         self.log_path = log_path
         self.log_replica_path: str = replica_path
