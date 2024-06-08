@@ -40,6 +40,12 @@ class Logs:
         self.log_message("Synchronization stopped")
         with open(self.log_path, 'a') as f:
             f.write(20 * "-" + "\n")
+        exit()
+    
+    def log_error(self, e: Exception, file: str) -> None:
+        self.log_message(f"!ERROR occurred during operation with file '{file}'")
+        self.log_message(f"Error: {str(e)}")
+        self.stop_log()
 
     def log_message(self, message) -> None:
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
