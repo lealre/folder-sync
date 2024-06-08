@@ -7,7 +7,8 @@ from log import Logs
 
 class FolderSync(Logs):
     def __init__(self, source_path: str, replica_path: str, sync_time: int, log_path: str) -> None:
-        super().__init__(log_path)
+        super().__init__(log_path = log_path, 
+                         replica_path= replica_path)
         self.source_path = source_path
         self.replica_path = replica_path
         self.sync_time = sync_time 
@@ -25,11 +26,9 @@ class FolderSync(Logs):
     def compare_folders(self):
         source_files = [file for file in os.listdir(self.source_path) if os.path.isfile(os.path.join(self.source_path, file))]
         replica_files = [file for file in os.listdir(self.replica_path) if os.path.isfile(os.path.join(self.replica_path, file))]
-
         for file in source_files:
             source_file_path = os.path.join(self.source_path, file)
             replica_file_path = os.path.join(self.replica_path, file)
-            self.log_count_changes(replica_file_path)
             if file in replica_files:
                 if not self.compare_two_files(source_file_path, replica_file_path):
                     shutil.copy2(source_file_path, self.replica_path)
@@ -44,7 +43,7 @@ class FolderSync(Logs):
                 os.remove(replica_file_path)
                 self.log_remove(file)
         
-        self.log_register_changes()
+        self.log_register_counter()
 
     def validate_paths(self) -> None:
         for path in [self.source_path, self.replica_path]:
