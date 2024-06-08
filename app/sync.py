@@ -24,25 +24,34 @@ class FolderSync(Logs):
             self.stop_log()
     
     def compare_folders(self):
-        source_files = [file for file in os.listdir(self.source_path) if os.path.isfile(os.path.join(self.source_path, file))]
-        replica_files = [file for file in os.listdir(self.replica_path) if os.path.isfile(os.path.join(self.replica_path, file))]
+        source_files, replica_files = self.get_files()
+
         for file in source_files:
             source_file_path = os.path.join(self.source_path, file)
             replica_file_path = os.path.join(self.replica_path, file)
             if file in replica_files:
                 if not self.compare_two_files(source_file_path, replica_file_path):
-                    shutil.copy2(source_file_path, self.replica_path)
-                    self.log_update(file)
+                    try:
+                        shutil.copy2(source_file_path, self.replica_path)
+                        self.log_update(file)
+                    except Exception as e:
+                        self.log_error(e, file)
             else:
-                shutil.copy2(source_file_path, self.replica_path)
-                self.log_add(file)
+                try:
+                    shutil.copy2(source_file_path, self.replica_path)
+                    self.log_add(file)
+                except Exception as e:
+                    self.log_error(e, file)
 
         for file in replica_files:
             if file not in source_files:
                 replica_file_path = os.path.join(self.replica_path,file)
-                os.remove(replica_file_path)
-                self.log_remove(file)
-        
+                try:
+                    os.remove(replica_file_path)
+                    self.log_remove(file)
+                except Exception as e:
+                    self.log_error(e, file)
+
         self.log_register_counter()
 
     def validate_paths(self) -> None:
@@ -53,12 +62,27 @@ class FolderSync(Logs):
         if not os.path.isfile(self.log_path):
                 print(f"Path does not exist or is not a file: '{self.log_path}'")
                 exit()
+    
+    def get_files(self) -> tuple:
+        try:
+            source_files = [file for file in os.listdir(self.source_path) if os.path.isfile(os.path.join(self.source_path, file))]
+        except Exception as e:
+            self.log_error(e, self.source_path)
+        
+        try:
+            replica_files = [file for file in os.listdir(self.replica_path) if os.path.isfile(os.path.join(self.replica_path, file))]
+        except Exception as e:
+            self.log_error(e, self.replica_path)
+        
+        return source_files, replica_files
 
-    @staticmethod
-    def compare_two_files(source_file: str, replica_file: str) -> bool:
-        with open(source_file, 'rb') as source:
-            with open(replica_file, 'rb') as replica:
-                if hashlib.md5(source.read()).hexdigest() == hashlib.md5(replica.read()).hexdigest():
-                    return True
-                else: 
-                    return False
+    def compare_two_files(self, source_file: str, replica_file: str) -> bool:
+        try:
+            with open(source_file, 'rb') as source:
+                with open(replica_file, 'rb') as replica:
+                    if hashlib.md5(source.read()).hexdigest() == hashlib.md5(replica.read()).hexdigest():
+                        return True
+                    else: 
+                        return False
+        except Exception as e:
+            self.log_error(e, self.replica_path)
