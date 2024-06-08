@@ -11,6 +11,18 @@ The program's objective is to ensure that the replica folder maintains a complet
 
 This synchronization is achieved using only built-in Python libraries.
 
+## How it works
+
+Using the command line, the user sets the following inputs:
+
+- `--source_path`: The path of the source directory, from where the files will be backed up. If the directory does not exist, it will show a message to the user.
+- `--replica_path`: The path of the replica directory, where the files from the source directories will be stored. If the directory does not exist, it will show a message to the user.
+- `--log_path`: The path of the log file, where all modifications in replica folder folders will be recorded. If the file path does not exist, it will show a message to the user.
+- `--sync_time`: The synchronization interval.
+
+From there, the script runs until it is interrupted by the user, recording all modifications of files in the replica folder in the log file, as well as any eventual errors during the process that may stop it from running. The messages are also displayed in the interface.
+
+
 ## How to run locally
 
 All the steps here are intended to a `bash` terminal.
